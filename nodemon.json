@@ -1,0 +1,7 @@
+{
+    "env": {
+        "PORT": "3000",
+        "MONGO_ATLAS_PW": "fasihonmongo420",
+        "JWT_KEY": "727wysi"
+    }
+}
