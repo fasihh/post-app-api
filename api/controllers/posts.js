@@ -32,6 +32,7 @@ module.exports.createPost = (req, res, next) => {
 
 module.exports.getAllPosts = (req, res, next) => {
     Post.find()
+    .populate('user', 'email')
     .exec()
     .then(posts => {
         return res.status(200).json({
@@ -39,9 +40,13 @@ module.exports.getAllPosts = (req, res, next) => {
             posts: posts.map(post => {
                 return {
                     _id: post._id,
-                    creatorId: post.creatorId,
+                    creator: post.creatorId.email,
                     title: post.title,
                     likes: post.likes,
+                    timestamps: {
+                        createdAt: post.createdAt,
+                        updatedAt: post.updatedAt
+                    },
                     request: {
                         type: 'GET',
                         url: `http://localhost:${process.env.PORT}/posts/${post._id}`
