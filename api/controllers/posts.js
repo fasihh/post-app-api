@@ -155,7 +155,7 @@ module.exports.deletePost = (req, res, next) => {
         .exec()
         .then(result => {
             return res.status(200).json({
-                message: `Post created by user ${req.userData.email} with ID ${id} has been deleted`,
+                message: `Post created by ${req.userData.email} has been deleted`,
                 request: {
                     type: 'POST',
                     url: `http://localhost:${process.env.PORT}/posts`,
