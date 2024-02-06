@@ -32,7 +32,7 @@ module.exports.createPost = (req, res, next) => {
 
 module.exports.getAllPosts = (req, res, next) => {
     Post.find()
-    .populate('user', 'email')
+    .populate('creatorId')
     .exec()
     .then(posts => {
         return res.status(200).json({
