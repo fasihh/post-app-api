@@ -62,15 +62,11 @@ module.exports.getAllPosts = (req, res, next) => {
 module.exports.getPostById = (req, res, next) => {
     Post.findById(req.params.postId)
     .populate('creatorId', '_id email')
-    .populate('comments')
     .exec()
     .then(post => {
         res.status(200).json({
             _id: post._id,
-            creator: {
-                id: post.creatorId._id, 
-                email: post.creatorId.email
-            },
+            creator: post.creatorId.email,
             timestamps: {
                 createdAt: post.createdAt,
                 updatedAt: post.updatedAt
@@ -78,18 +74,6 @@ module.exports.getPostById = (req, res, next) => {
             title: post.title,
             content: post.content,
             likes: post.likes,
-            comments: post.comments.map(comment => {
-                return {
-                    id: comment._id,
-                    content: comment.content,
-                    timestamps: {
-                        createdAt: comment.createdAt,
-                        updatedAt: comment.updatedAt
-                    },
-                    likes: comment.likes,
-                    replies: comment.replies
-                }
-            }),
             request: {
                 type: 'GET',
                 url: `http://localhost:${process.env.PORT}/posts`
