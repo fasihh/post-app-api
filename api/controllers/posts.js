@@ -32,6 +32,7 @@ module.exports.createPost = (req, res, next) => {
 
 module.exports.getAllPosts = (req, res, next) => {
     Post.find()
+    .sort({ 'createdAt': -1 })
     .populate('creatorId')
     .exec()
     .then(posts => {
