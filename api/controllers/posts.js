@@ -67,6 +67,7 @@ module.exports.getPostById = (req, res, next) => {
     .populate({ path: "comments", populate: { path: "creatorId" } })
     .exec()
     .then(post => {
+        post.comments.reverse();
         res.status(200).json({
             _id: post._id,
             creator: post.creatorId.email,
@@ -135,6 +136,7 @@ module.exports.updatePost = (req, res, next) => {
 
         const updateOps = {};
         for (const ops in req.body) updateOps[ops] = req.body[ops];
+        if (!req.body.title) return res.status(422).json({ message: 'Post title required'});
     
         Post.updateOne({_id: id}, {$set: updateOps})
         .exec()
