@@ -52,7 +52,7 @@ module.exports.loginUser = (req, res, next) => {
                 },
                 `${process.env.JWT_KEY}`,
                 {
-                    expiresIn: '1h'
+                    expiresIn: '4h'
                 }
             );
 
