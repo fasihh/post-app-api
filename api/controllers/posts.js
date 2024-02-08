@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const handleError = require('../utils/err');
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 
 module.exports.createPost = (req, res, next) => {
     const post = new Post({
@@ -163,6 +164,10 @@ module.exports.deletePost = (req, res, next) => {
         if (!post) return res.status(404).json({ message: 'Post does not exist or has already been deleted' }); 
 
         if (post.creatorId != req.userData.userId) return res.status(403).json({ message: 'Permission denied' });
+
+        Comment.deleteMany({_id: { $in: post.comments}})
+        .exec()
+        .catch(err => handleError(err, res));
 
         Post.deleteOne({_id: id})
         .exec()

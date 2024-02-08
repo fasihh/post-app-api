@@ -76,7 +76,7 @@ module.exports.createComment = (req, res, next) => {
         replies: []
     });
 
-    Post.updateOne({_id: id}, {$push: {comments: comment._id}})
+    Post.updateOne({_id: id}, {$push: {comments: comment._id}}, {timestamps: false})
     .exec()
     .then(postResult => {
         comment.save()
